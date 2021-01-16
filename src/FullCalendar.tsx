@@ -1,11 +1,16 @@
 import React from "react";
-import FullCalendarLib from "@fullcalendar/react";
+import FullCalendarLib, {EventInput} from "@fullcalendar/react";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 
 export const FullCalendar = () => {
-  const events = [
-    { title: "event 1", start: "2021-04-01", end: '2021-05-01' },
-    { title: "event 2", start: "2021-04-02" , end: '2021-06-01'},
+  const resources = [{
+    id: 'resourcesId1',
+  }]
+  
+  const events: EventInput = [
+    { id: "1", title: "XXX", resourceId: resources[0].id, start: "2021-01-01T12:00:00", end: '2021-02-01' },
+    { id: "2", title: "YYY", resourceId: resources[0].id, start: "2022-04-02" },
+    { id: "3", title: "ZZZ", resourceId: resources[0].id, start: "2022-04-02" },
   ];
 
   const headerToolbar = {
@@ -26,11 +31,11 @@ export const FullCalendar = () => {
   return (
     <FullCalendarLib
       plugins={[resourceTimelinePlugin]}
-      initialView="myTimeline"
+      initialView="resourceTimeline"
       headerToolbar={headerToolbar}
       events={events}
+      resources={resources}
       views={views}
-      editable={true}
       schedulerLicenseKey='GPL-My-Project-Is-Open-Source'
     />
   );
