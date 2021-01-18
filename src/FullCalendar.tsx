@@ -7,7 +7,7 @@ import FullCalendarLib, {
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
-import { uuid } from './lib/uuid'
+import { uuid } from "./lib/uuid";
 
 const FIELD__H1__LIST = {
   VISA: "VISA",
@@ -87,11 +87,11 @@ const resources = [
   {
     id: "etc",
     [FIELD_NAME["H1"]]: "H1__ETC__",
-    [FIELD_NAME["H2"]]: "Worker",
+    [FIELD_NAME["H2"]]: "H2__ETC__",
   },
 ];
 
-const events: EventInput = [
+const events: EventInput[] = [
   {
     id: "1",
     resourceId: RESOURCE_ID__VISA__STUDY,
@@ -130,29 +130,27 @@ export const FullCalendar = () => {
   const [_events, setEvents] = React.useState(events);
 
   const select = (info: DateSelectArg) => {
-    console.log("select");
-
     setEvents((prev) => {
-      return [...(prev as unknown[]), {
-        id: uuid(),
-        resourceId: "etc",
-        start: info.startStr,
-        end: info.endStr,
-      }]
+      return [
+        ...prev,
+        {
+          id: uuid(),
+          resourceId: info.resource?.id,
+          start: info.startStr,
+          end: info.endStr,
+        },
+      ];
     });
   };
 
   const click = (info: EventClickArg) => {
-    if(!window.confirm("Would you like to remove this event?")) return;
+    if (!window.confirm("Would you like to remove this event?")) return;
 
-    console.log("click id", info);
-
-    const id = info.event.id
-    setEvents(prev => {
-      console.log("prev", prev)
-      return (prev as any[]).filter(e => e.id !== id)
-    })
-  }
+    const id = info.event.id;
+    setEvents((prev) => {
+      return prev.filter((e) => e.id !== id);
+    });
+  };
 
   return (
     <FullCalendarLib
