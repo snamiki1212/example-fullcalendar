@@ -5,6 +5,7 @@ import FullCalendarLib, {
 } from "@fullcalendar/react";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import listPlugin from "@fullcalendar/list";
+import interactionPlugin from "@fullcalendar/interaction";
 
 const FIELD__H1__LIST = {
   VISA: "VISA",
@@ -50,88 +51,106 @@ const headerToolbar = {
   right: `${MY_TIME_LINE},listMonth`,
 };
 
+const resources = [
+  // VISA
+  {
+    id: RESOURCE_ID__VISA__STUDY,
+    [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
+    [FIELD_NAME["H2"]]: "Study VISA",
+  },
+  {
+    id: RESOURCE_ID__VISA__COOP,
+    [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
+    [FIELD_NAME["H2"]]: "Co-op VISA",
+  },
+  {
+    id: RESOURCE_ID__VISA__WORKING_HOLIDAY,
+    [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
+    [FIELD_NAME["H2"]]: "Working Holiday VISA",
+  },
+
+  // STATUS
+  {
+    id: RESOURCE_ID__STATUS__STUDENT,
+    [FIELD_NAME["H1"]]: FIELD__H1__LIST["STATUS"],
+    [FIELD_NAME["H2"]]: "Student",
+  },
+  {
+    id: RESOURCE_ID__STATUS__WORKER,
+    [FIELD_NAME["H1"]]: FIELD__H1__LIST["STATUS"],
+    [FIELD_NAME["H2"]]: "Worker",
+  },
+
+  // ETC
+  {
+    id: "etc",
+    [FIELD_NAME["H1"]]: "H1__ETC__",
+    [FIELD_NAME["H2"]]: "Worker",
+  },
+];
+
+const events: EventInput = [
+  {
+    id: "1",
+    resourceId: RESOURCE_ID__VISA__STUDY,
+    start: "2020-11-20",
+    end: "2023-01-01",
+  },
+  {
+    id: "2",
+    resourceId: RESOURCE_ID__VISA__COOP,
+    start: "2022-01-01",
+    end: "2023-01-01",
+  },
+  {
+    id: "3",
+    resourceId: RESOURCE_ID__VISA__WORKING_HOLIDAY,
+    start: "2022-06-01",
+    end: "2023-06-01",
+  },
+
+  // STATUS
+  {
+    id: "4",
+    resourceId: RESOURCE_ID__STATUS__STUDENT,
+    start: "2020-11-20",
+    end: "2023-01-01",
+  },
+  {
+    id: "5",
+    resourceId: RESOURCE_ID__STATUS__WORKER,
+    start: "2022-01-01",
+    end: "2023-06-01",
+  },
+];
+
 export const FullCalendar = () => {
-  const resources = [
-    // VISA
-    {
-      id: RESOURCE_ID__VISA__STUDY,
-      [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
-      [FIELD_NAME["H2"]]: "Study VISA",
-    },
-    {
-      id: RESOURCE_ID__VISA__COOP,
-      [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
-      [FIELD_NAME["H2"]]: "Co-op VISA",
-    },
-    {
-      id: RESOURCE_ID__VISA__WORKING_HOLIDAY,
-      [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
-      [FIELD_NAME["H2"]]: "Working Holiday VISA",
-    },
+  const [_events, setEvents] = React.useState(events);
 
-    // STATUS
-    {
-      id: RESOURCE_ID__STATUS__STUDENT,
-      [FIELD_NAME["H1"]]: FIELD__H1__LIST["STATUS"],
-      [FIELD_NAME["H2"]]: "Student",
-    },
-    {
-      id: RESOURCE_ID__STATUS__WORKER,
-      [FIELD_NAME["H1"]]: FIELD__H1__LIST["STATUS"],
-      [FIELD_NAME["H2"]]: "Worker",
-    },
-  ];
-
-  // const select = (info: DateSelectArg) => {
-  //   info.startStr;
-  //   info.endStr;
-  // }
-
-  const events: EventInput = [
-    {
-      id: "1",
-      resourceId: RESOURCE_ID__VISA__STUDY,
-      start: "2020-11-20",
-      end: "2023-01-01",
-    },
-    {
-      id: "2",
-      resourceId: RESOURCE_ID__VISA__COOP,
-      start: "2022-01-01",
-      end: "2023-01-01",
-    },
-    {
-      id: "3",
-      resourceId: RESOURCE_ID__VISA__WORKING_HOLIDAY,
-      start: "2022-06-01",
-      end: "2023-06-01",
-    },
-
-    {
-      id: "4",
-      resourceId: RESOURCE_ID__STATUS__STUDENT,
-      start: "2020-11-20",
-      end: "2023-01-01",
-    },
-
-    {
-      id: "5",
-      resourceId: RESOURCE_ID__STATUS__WORKER,
-      start: "2022-01-01",
-      end: "2023-06-01",
-    },
-  ];
+  const select = (info: DateSelectArg) => {
+    console.log("select");
+    
+    setEvents((prev) => {
+      return [...(prev as unknown[]), {
+        resourceId: "etc",
+        start: info.startStr,
+        end: info.endStr,
+      }]
+    });
+  };
 
   return (
     <FullCalendarLib
-      plugins={[resourceTimelinePlugin, listPlugin]}
+      selectable={true}
+      editable={true}
+      plugins={[interactionPlugin, resourceTimelinePlugin, listPlugin]}
       initialView={MY_TIME_LINE}
       headerToolbar={headerToolbar}
-      events={events}
+      events={_events}
       resources={resources}
       resourceAreaColumns={resourceAreaColumns}
       views={views}
-      // select={select}
+      select={select}
       schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
     />
   );
