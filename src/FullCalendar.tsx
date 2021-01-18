@@ -2,10 +2,12 @@ import React from "react";
 import FullCalendarLib, {
   EventInput,
   DateSelectArg,
+  EventClickArg,
 } from "@fullcalendar/react";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
+import { uuid } from './lib/uuid'
 
 const FIELD__H1__LIST = {
   VISA: "VISA",
@@ -129,15 +131,28 @@ export const FullCalendar = () => {
 
   const select = (info: DateSelectArg) => {
     console.log("select");
-    
+
     setEvents((prev) => {
       return [...(prev as unknown[]), {
+        id: uuid(),
         resourceId: "etc",
         start: info.startStr,
         end: info.endStr,
       }]
     });
   };
+
+  const click = (info: EventClickArg) => {
+    if(!window.confirm("Would you like to remove this event?")) return;
+
+    console.log("click id", info);
+
+    const id = info.event.id
+    setEvents(prev => {
+      console.log("prev", prev)
+      return (prev as any[]).filter(e => e.id !== id)
+    })
+  }
 
   return (
     <FullCalendarLib
@@ -151,6 +166,7 @@ export const FullCalendar = () => {
       resourceAreaColumns={resourceAreaColumns}
       views={views}
       select={select}
+      eventClick={click}
       schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
     />
   );
