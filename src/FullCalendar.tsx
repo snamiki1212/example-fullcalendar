@@ -5,7 +5,7 @@ import listPlugin from "@fullcalendar/list";
 
 const FIELD__H1__LIST = {
   VISA: "VISA",
-  STATUS: "STATUS"
+  STATUS: "STATUS",
 } as const;
 
 const FIELD_NAME = {
@@ -25,15 +25,13 @@ const resourceAreaColumns = [
   },
 ];
 
-const RESOURCE_ID__VISA__STUDY = 'RESOURCE_ID__VISA__STUDY'
-  const RESOURCE_ID__VISA__COOP = 'RESOURCE_ID__VISA__COOP'
-  const RESOURCE_ID__VISA__WORKING_HOLIDAY = 'RESOURCE_ID__VISA__WORKING_HOLIDAY'
-  const RESOURCE_ID__STATUS__WORKER = 'RESOURCE_ID__STATUS__WORKER'
-  const RESOURCE_ID__STATUS__STUDENT = 'RESOURCE_ID__STATUS__STUDENT'
-  
+const RESOURCE_ID__VISA__STUDY = "RESOURCE_ID__VISA__STUDY";
+const RESOURCE_ID__VISA__COOP = "RESOURCE_ID__VISA__COOP";
+const RESOURCE_ID__VISA__WORKING_HOLIDAY = "RESOURCE_ID__VISA__WORKING_HOLIDAY";
+const RESOURCE_ID__STATUS__WORKER = "RESOURCE_ID__STATUS__WORKER";
+const RESOURCE_ID__STATUS__STUDENT = "RESOURCE_ID__STATUS__STUDENT";
 
 export const FullCalendar = () => {
-  
   const resources = [
     // VISA
     {
@@ -63,7 +61,6 @@ export const FullCalendar = () => {
       [FIELD_NAME["H1"]]: FIELD__H1__LIST["STATUS"],
       [FIELD_NAME["H2"]]: "Worker",
     },
-
   ];
 
   const events: EventInput = [
