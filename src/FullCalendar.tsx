@@ -25,42 +25,78 @@ const resourceAreaColumns = [
   },
 ];
 
+const RESOURCE_ID__VISA__STUDY = 'RESOURCE_ID__VISA__STUDY'
+  const RESOURCE_ID__VISA__COOP = 'RESOURCE_ID__VISA__COOP'
+  const RESOURCE_ID__VISA__WORKING_HOLIDAY = 'RESOURCE_ID__VISA__WORKING_HOLIDAY'
+  const RESOURCE_ID__STATUS__WORKER = 'RESOURCE_ID__STATUS__WORKER'
+  const RESOURCE_ID__STATUS__STUDENT = 'RESOURCE_ID__STATUS__STUDENT'
+  
+
 export const FullCalendar = () => {
+  
   const resources = [
+    // VISA
     {
-      id: "resourceId1",
+      id: RESOURCE_ID__VISA__STUDY,
       [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
       [FIELD_NAME["H2"]]: "Study VISA",
     },
     {
-      id: "resourceId2",
+      id: RESOURCE_ID__VISA__COOP,
       [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
       [FIELD_NAME["H2"]]: "Co-op VISA",
     },
     {
-      id: "resourceId3",
+      id: RESOURCE_ID__VISA__WORKING_HOLIDAY,
       [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
       [FIELD_NAME["H2"]]: "Working Holiday VISA",
     },
+
+    // STATUS
+    {
+      id: RESOURCE_ID__STATUS__STUDENT,
+      [FIELD_NAME["H1"]]: FIELD__H1__LIST["STATUS"],
+      [FIELD_NAME["H2"]]: "Student",
+    },
+    {
+      id: RESOURCE_ID__STATUS__WORKER,
+      [FIELD_NAME["H1"]]: FIELD__H1__LIST["STATUS"],
+      [FIELD_NAME["H2"]]: "Worker",
+    },
+
   ];
 
   const events: EventInput = [
     {
       id: "1",
-      resourceId: resources[0].id,
+      resourceId: RESOURCE_ID__VISA__STUDY,
       start: "2020-11-20",
       end: "2023-01-01",
     },
     {
       id: "2",
-      resourceId: resources[1].id,
+      resourceId: RESOURCE_ID__VISA__COOP,
       start: "2022-01-01",
       end: "2023-01-01",
     },
     {
       id: "3",
-      resourceId: resources[2].id,
+      resourceId: RESOURCE_ID__VISA__WORKING_HOLIDAY,
       start: "2022-06-01",
+      end: "2023-06-01",
+    },
+
+    {
+      id: "4",
+      resourceId: RESOURCE_ID__STATUS__STUDENT,
+      start: "2020-11-20",
+      end: "2023-01-01",
+    },
+
+    {
+      id: "5",
+      resourceId: RESOURCE_ID__STATUS__WORKER,
+      start: "2022-01-01",
       end: "2023-06-01",
     },
   ];
