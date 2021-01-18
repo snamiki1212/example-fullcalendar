@@ -42,8 +42,9 @@ const MY_TIME_LINE = "MY_TIME_LINE";
 const views = {
   [MY_TIME_LINE]: {
     type: "resourceTimelineYear",
-    slotDuration: { month: 1 },
+    duration: { year: 6 },
     buttonText: "TIME_LINE",
+    startStr: '2019-01-01'
   },
 };
 
@@ -126,6 +127,11 @@ const events: EventInput[] = [
   },
 ];
 
+const slotLabelFormat = [
+  { year: "numeric" },
+  { month: "numeric" },
+];
+
 export const FullCalendar = () => {
   const [_events, setEvents] = React.useState(events);
 
@@ -165,6 +171,8 @@ export const FullCalendar = () => {
       views={views}
       select={select}
       eventClick={click}
+      slotLabelFormat={slotLabelFormat}
+      // slotLabelInterval={{years: 3}}
       schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
     />
   );
