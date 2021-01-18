@@ -5,6 +5,7 @@ import listPlugin from "@fullcalendar/list";
 
 const FIELD__H1__LIST = {
   VISA: "VISA",
+  STATUS: "STATUS"
 } as const;
 
 const FIELD_NAME = {
@@ -29,17 +30,17 @@ export const FullCalendar = () => {
     {
       id: "resourceId1",
       [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
-      [FIELD_NAME["H2"]]: "XXX",
+      [FIELD_NAME["H2"]]: "Study VISA",
     },
     {
       id: "resourceId2",
       [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
-      [FIELD_NAME["H2"]]: "YYY",
+      [FIELD_NAME["H2"]]: "Co-op VISA",
     },
     {
       id: "resourceId3",
       [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
-      [FIELD_NAME["H2"]]: "ZZZ",
+      [FIELD_NAME["H2"]]: "Working Holiday VISA",
     },
   ];
 
@@ -47,20 +48,20 @@ export const FullCalendar = () => {
     {
       id: "1",
       resourceId: resources[0].id,
-      start: "2021-01-01T12:00:00",
-      end: "2022-01-01",
+      start: "2020-11-20",
+      end: "2023-01-01",
     },
     {
       id: "2",
       resourceId: resources[1].id,
-      start: "2022-04-02",
-      end: "2022-05-01",
+      start: "2022-01-01",
+      end: "2023-01-01",
     },
     {
       id: "3",
       resourceId: resources[2].id,
-      start: "2022-04-02",
-      end: "2022-05-01",
+      start: "2022-06-01",
+      end: "2023-06-01",
     },
   ];
 
