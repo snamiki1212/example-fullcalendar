@@ -1,5 +1,8 @@
 import React from "react";
-import FullCalendarLib, { EventInput } from "@fullcalendar/react";
+import FullCalendarLib, {
+  EventInput,
+  DateSelectArg,
+} from "@fullcalendar/react";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import listPlugin from "@fullcalendar/list";
 
@@ -30,6 +33,22 @@ const RESOURCE_ID__VISA__COOP = "RESOURCE_ID__VISA__COOP";
 const RESOURCE_ID__VISA__WORKING_HOLIDAY = "RESOURCE_ID__VISA__WORKING_HOLIDAY";
 const RESOURCE_ID__STATUS__WORKER = "RESOURCE_ID__STATUS__WORKER";
 const RESOURCE_ID__STATUS__STUDENT = "RESOURCE_ID__STATUS__STUDENT";
+
+const MY_TIME_LINE = "MY_TIME_LINE";
+
+const views = {
+  [MY_TIME_LINE]: {
+    type: "resourceTimelineYear",
+    slotDuration: { month: 1 },
+    buttonText: "TIME_LINE",
+  },
+};
+
+const headerToolbar = {
+  left: "today prev,next",
+  center: "title",
+  right: `${MY_TIME_LINE},listMonth`,
+};
 
 export const FullCalendar = () => {
   const resources = [
@@ -62,6 +81,11 @@ export const FullCalendar = () => {
       [FIELD_NAME["H2"]]: "Worker",
     },
   ];
+
+  // const select = (info: DateSelectArg) => {
+  //   info.startStr;
+  //   info.endStr;
+  // }
 
   const events: EventInput = [
     {
@@ -98,29 +122,16 @@ export const FullCalendar = () => {
     },
   ];
 
-  const headerToolbar = {
-    left: "today prev,next",
-    center: "title",
-    right: "myTimeline,resourceTimelineDay,resourceTimelineYear,listMonth",
-  };
-
-  const views = {
-    myTimeline: {
-      type: "resourceTimelineYear",
-      slotDuration: { month: 1 },
-      buttonText: "my-year2",
-    },
-  };
-
   return (
     <FullCalendarLib
       plugins={[resourceTimelinePlugin, listPlugin]}
-      initialView="myTimeline"
+      initialView={MY_TIME_LINE}
       headerToolbar={headerToolbar}
       events={events}
       resources={resources}
       resourceAreaColumns={resourceAreaColumns}
       views={views}
+      // select={select}
       schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
     />
   );
