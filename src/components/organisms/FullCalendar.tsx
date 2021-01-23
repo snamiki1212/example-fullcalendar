@@ -8,6 +8,7 @@ import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import { uuid } from "../../lib/uuid";
 import { useAgeEvents } from "../../hooks/useAgeEvents";
+import { useAgeContext } from "../../hooks/useAgeContext";
 import {
   resourceAreaColumns,
   views,
@@ -21,16 +22,18 @@ import {
 export const FullCalendar = () => {
   const [_events, setEvents] = React.useState(events);
 
-  const birthday = "1990-12-12";
+  const {birth} = useAgeContext()
   const [ageEvents, calcAgeEvents] = useAgeEvents();
 
   React.useEffect(() => {
-    calcAgeEvents(birthday);
-  }, [birthday, calcAgeEvents]);
+    calcAgeEvents(birth);
+  }, [birth, calcAgeEvents]);
 
   React.useEffect(() => {
-    setEvents((prev) => [...ageEvents, ...prev]);
-  }, [ageEvents]);
+    console.log('ageEvents', ageEvents)
+    const result = [...ageEvents, ...events];
+    setEvents(result);
+  }, [ageEvents, events]);
 
   console.log("ageEvents", ageEvents);
 
