@@ -13,13 +13,15 @@ type AgeContextRawValue = {
   age: number;
 };
 type AgeContextFunc = {
-
+  setBirth: Function
 }
 type AgeContextValue = AgeContextRawValue & AgeContextFunc
 const defaultValue = {
   birth: personaBirth,
   age: PERSONA_AGE,
-} as const
+  setBirth: () => {throw new Error('this func should be replaced but not yet') },
+};
+
 const AgeContext = React.createContext<AgeContextValue>(defaultValue)
 
 export const AgeContextProvider:React.FC = ({children}) => {
@@ -28,7 +30,8 @@ export const AgeContextProvider:React.FC = ({children}) => {
 
   const value: AgeContextValue = {
     birth,
-    age
+    age,
+    setBirth,
   }
 
   return(
