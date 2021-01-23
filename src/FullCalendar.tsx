@@ -172,6 +172,7 @@ export const FullCalendar = () => {
       select={select}
       eventClick={click}
       slotLabelFormat={slotLabelFormat}
+      initialDate={'2020-06-01'}
       // slotLabelInterval={{years: 3}}
       schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
     />
