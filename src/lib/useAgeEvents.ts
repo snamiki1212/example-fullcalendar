@@ -1,5 +1,5 @@
 import React from "react";
-import { getRangeNumbers, getYesterday } from "./age";
+import { getRangeNumbers, getPrevMonth } from "./age";
 import { uuid } from "./uuid";
 import { EventInput } from "@fullcalendar/react";
 import { RESOURCE_ID__SHARED__AGE } from "../constants/resourceIds";
@@ -33,9 +33,9 @@ export const useAgeEvents = () => {
       })();
 
       const end = (() => {
-        const yesterday = getYesterday(birthDate);
-        yesterday.setFullYear(year + 1);
-        return yesterday.toISOString();
+        const prevMonth = getPrevMonth(birthDate);
+        prevMonth.setFullYear(year + 1);
+        return prevMonth.toISOString();
       })();
 
       return {

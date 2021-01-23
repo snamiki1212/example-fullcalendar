@@ -12,3 +12,10 @@ export const getYesterday = (date: string | Date) => {
     new Date(date).getTime() - MILLI_SECONDS_TO_YESTERDAY;
   return new Date(unixTimeOfYesterday);
 };
+
+export const getPrevMonth = (_date: string | Date) => {
+  const d = new Date(_date);
+  const nextMonth = d.getMonth() - 1;
+  d.setMonth(nextMonth);
+  return d;
+};
