@@ -8,8 +8,10 @@ import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import { uuid } from "./lib/uuid";
+import { getRangeNumbers, getYesterday } from "./lib/age";
 
 const FIELD__H1__LIST = {
+  SHARED: "SHARED",
   VISA: "VISA",
   STATUS: "STATUS",
 } as const;
@@ -31,6 +33,7 @@ const resourceAreaColumns = [
   },
 ];
 
+const RESOURCE_ID__SHARED__AGE = "RESOURCE_ID__SHARED__AGE";
 const RESOURCE_ID__VISA__STUDY = "RESOURCE_ID__VISA__STUDY";
 const RESOURCE_ID__VISA__COOP = "RESOURCE_ID__VISA__COOP";
 const RESOURCE_ID__VISA__WORKING_HOLIDAY = "RESOURCE_ID__VISA__WORKING_HOLIDAY";
@@ -44,7 +47,7 @@ const views = {
     type: "resourceTimelineYear",
     duration: { year: 6 },
     buttonText: "TIME_LINE",
-    startStr: '2019-01-01'
+    startStr: "2019-01-01",
   },
 };
 
@@ -55,6 +58,13 @@ const headerToolbar = {
 };
 
 const resources = [
+  // SHARED
+  {
+    id: RESOURCE_ID__SHARED__AGE,
+    [FIELD_NAME["H1"]]: FIELD__H1__LIST["SHARED"],
+    [FIELD_NAME["H2"]]: "Age",
+  },
+
   // VISA
   {
     id: RESOURCE_ID__VISA__STUDY,
@@ -127,13 +137,60 @@ const events: EventInput[] = [
   },
 ];
 
-const slotLabelFormat = [
-  { year: "numeric" },
-  { month: "numeric" },
-];
+const slotLabelFormat = [{ year: "numeric" }, { month: "numeric" }];
 
 export const FullCalendar = () => {
   const [_events, setEvents] = React.useState(events);
+
+  const birthday = "1990-12-12";
+  const [ageEvents, setAgeEvents] = React.useState<EventInput[]>([]);
+
+  React.useEffect(() => {
+    const endDate = (() => {
+      let d = new Date();
+      const BUFFER_YEAR = 10;
+      d.setFullYear(d.getFullYear() + BUFFER_YEAR);
+      return d;
+    })();
+
+    const birthDate = new Date(birthday);
+
+    // get year numbers
+    const endYear = endDate.getFullYear();
+    const startYear = new Date(birthday).getFullYear();
+
+    // create years list
+    const years = getRangeNumbers(startYear, endYear);
+
+    // create EventInput obj
+    const ageEventList = years.map<EventInput>((year) => {
+      const start = (() => {
+        birthDate.setFullYear(year);
+        return birthDate.toISOString();
+      })();
+      
+      const end = (() => {
+        const yesterday = getYesterday(birthDate)
+        yesterday.setFullYear(year + 1);
+        return yesterday.toISOString();
+      })();
+
+      return {
+        id: uuid(),
+        resourceId: RESOURCE_ID__SHARED__AGE,
+        start,
+        end,
+      };
+    });
+
+    setAgeEvents(ageEventList);
+  }, [birthday]);
+
+  React.useEffect(() => {
+    setEvents(prev => [...ageEvents, ...prev])
+  }, [ageEvents])
+
+  console.log('ageEvents', ageEvents);
 
   const select = (info: DateSelectArg) => {
     setEvents((prev) => {
@@ -172,7 +229,7 @@ export const FullCalendar = () => {
       select={select}
       eventClick={click}
       slotLabelFormat={slotLabelFormat}
-      initialDate={'2020-06-01'}
+      initialDate={"2020-06-01"}
       // slotLabelInterval={{years: 3}}
       schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
     />
