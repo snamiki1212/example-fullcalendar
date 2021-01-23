@@ -2,6 +2,7 @@
   "name": "example-fullcalendar",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/example-fullcalendar",
   "dependencies": {
     "@date-io/date-fns": "1.x",
     "@fullcalendar/interaction": "^5.5.0",
