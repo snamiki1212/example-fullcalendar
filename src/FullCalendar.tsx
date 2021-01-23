@@ -1,6 +1,5 @@
 import React from "react";
 import FullCalendarLib, {
-  EventInput,
   DateSelectArg,
   EventClickArg,
 } from "@fullcalendar/react";
@@ -8,183 +7,16 @@ import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import { uuid } from "./lib/uuid";
-import { getRangeNumbers, getYesterday } from "./lib/age";
-
-const FIELD__H1__LIST = {
-  SHARED: "SHARED",
-  VISA: "VISA",
-  STATUS: "STATUS",
-} as const;
-
-const FIELD_NAME = {
-  H1: "FIELD__H1",
-  H2: "FIELD__H2",
-} as const;
-
-const resourceAreaColumns = [
-  {
-    group: true,
-    field: FIELD_NAME["H1"],
-    headerContent: "Category",
-  },
-  {
-    field: FIELD_NAME["H2"],
-    headerContent: "Event",
-  },
-];
-
-const RESOURCE_ID__SHARED__AGE = "RESOURCE_ID__SHARED__AGE";
-const RESOURCE_ID__VISA__STUDY = "RESOURCE_ID__VISA__STUDY";
-const RESOURCE_ID__VISA__COOP = "RESOURCE_ID__VISA__COOP";
-const RESOURCE_ID__VISA__WORKING_HOLIDAY = "RESOURCE_ID__VISA__WORKING_HOLIDAY";
-const RESOURCE_ID__STATUS__WORKER = "RESOURCE_ID__STATUS__WORKER";
-const RESOURCE_ID__STATUS__STUDENT = "RESOURCE_ID__STATUS__STUDENT";
-
-const MY_TIME_LINE = "MY_TIME_LINE";
-
-const views = {
-  [MY_TIME_LINE]: {
-    type: "resourceTimelineYear",
-    duration: { year: 6 },
-    buttonText: "TIME_LINE",
-    startStr: "2019-01-01",
-  },
-};
-
-const headerToolbar = {
-  left: "today prev,next",
-  center: "title",
-  right: `${MY_TIME_LINE},listMonth`,
-};
-
-const resources = [
-  // SHARED
-  {
-    id: RESOURCE_ID__SHARED__AGE,
-    [FIELD_NAME["H1"]]: FIELD__H1__LIST["SHARED"],
-    [FIELD_NAME["H2"]]: "Age",
-  },
-
-  // VISA
-  {
-    id: RESOURCE_ID__VISA__STUDY,
-    [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
-    [FIELD_NAME["H2"]]: "Study VISA",
-  },
-  {
-    id: RESOURCE_ID__VISA__COOP,
-    [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
-    [FIELD_NAME["H2"]]: "Co-op VISA",
-  },
-  {
-    id: RESOURCE_ID__VISA__WORKING_HOLIDAY,
-    [FIELD_NAME["H1"]]: FIELD__H1__LIST["VISA"],
-    [FIELD_NAME["H2"]]: "Working Holiday VISA",
-  },
-
-  // STATUS
-  {
-    id: RESOURCE_ID__STATUS__STUDENT,
-    [FIELD_NAME["H1"]]: FIELD__H1__LIST["STATUS"],
-    [FIELD_NAME["H2"]]: "Student",
-  },
-  {
-    id: RESOURCE_ID__STATUS__WORKER,
-    [FIELD_NAME["H1"]]: FIELD__H1__LIST["STATUS"],
-    [FIELD_NAME["H2"]]: "Worker",
-  },
-
-  // ETC
-  {
-    id: "etc",
-    [FIELD_NAME["H1"]]: "H1__ETC__",
-    [FIELD_NAME["H2"]]: "H2__ETC__",
-  },
-];
-
-const events: EventInput[] = [
-  {
-    id: "1",
-    resourceId: RESOURCE_ID__VISA__STUDY,
-    start: "2020-11-20",
-    end: "2023-01-01",
-  },
-  {
-    id: "2",
-    resourceId: RESOURCE_ID__VISA__COOP,
-    start: "2022-01-01",
-    end: "2023-01-01",
-  },
-  {
-    id: "3",
-    resourceId: RESOURCE_ID__VISA__WORKING_HOLIDAY,
-    start: "2022-06-01",
-    end: "2023-06-01",
-  },
-
-  // STATUS
-  {
-    id: "4",
-    resourceId: RESOURCE_ID__STATUS__STUDENT,
-    start: "2020-11-20",
-    end: "2023-01-01",
-  },
-  {
-    id: "5",
-    resourceId: RESOURCE_ID__STATUS__WORKER,
-    start: "2022-01-01",
-    end: "2023-06-01",
-  },
-];
-
-const slotLabelFormat = [{ year: "numeric" }, { month: "numeric" }];
-
-const useAgeEvents = () => {
-  const [ageEvents, setAgeEvents] = React.useState<EventInput[]>([]);
-
-  const calc = React.useCallback((birthday: string | Date) => {
-    const endDate = (() => {
-      let d = new Date();
-      const BUFFER_YEAR = 10;
-      d.setFullYear(d.getFullYear() + BUFFER_YEAR);
-      return d;
-    })();
-
-    const birthDate = new Date(birthday);
-
-    // get year numbers
-    const endYear = endDate.getFullYear();
-    const startYear = new Date(birthday).getFullYear();
-
-    // create years list
-    const years = getRangeNumbers(startYear, endYear);
-
-    // create EventInput obj
-    const ageEventList = years.map<EventInput>((year) => {
-      const start = (() => {
-        birthDate.setFullYear(year);
-        return birthDate.toISOString();
-      })();
-
-      const end = (() => {
-        const yesterday = getYesterday(birthDate);
-        yesterday.setFullYear(year + 1);
-        return yesterday.toISOString();
-      })();
-
-      return {
-        id: uuid(),
-        resourceId: RESOURCE_ID__SHARED__AGE,
-        start,
-        end,
-      };
-    });
-
-    setAgeEvents(ageEventList);
-  }, []);
-
-  return [ageEvents, calc] as const;
-};
+import { useAgeEvents } from "./lib/useAgeEvents";
+import {
+  resourceAreaColumns,
+  views,
+  headerToolbar,
+  resources,
+  events,
+  slotLabelFormat,
+  MY_TIME_LINE,
+} from "./constants/index";
 
 export const FullCalendar = () => {
   const [_events, setEvents] = React.useState(events);
