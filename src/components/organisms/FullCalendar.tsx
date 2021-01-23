@@ -6,8 +6,8 @@ import FullCalendarLib, {
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
-import { uuid } from "./lib/uuid";
-import { useAgeEvents } from "./hooks/useAgeEvents";
+import { uuid } from "../../lib/uuid";
+import { useAgeEvents } from "../../hooks/useAgeEvents";
 import {
   resourceAreaColumns,
   views,
@@ -16,7 +16,7 @@ import {
   events,
   slotLabelFormat,
   MY_TIME_LINE,
-} from "./constants/index";
+} from "../../constants/index";
 
 export const FullCalendar = () => {
   const [_events, setEvents] = React.useState(events);

@@ -1,5 +1,5 @@
 import React from 'react';
-import {FullCalendar} from './FullCalendar'
+import {FullCalendar} from './components/organisms/FullCalendar'
 
 function App() {
   return (
