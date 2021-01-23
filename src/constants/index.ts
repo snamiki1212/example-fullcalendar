@@ -88,8 +88,8 @@ export const resources = [
   // ETC
   {
     id: "etc",
-    [FIELD_NAME["H1"]]: "H1__ETC__",
-    [FIELD_NAME["H2"]]: "H2__ETC__",
+    [FIELD_NAME["H1"]]: "CUSTOM_CATEGORY",
+    [FIELD_NAME["H2"]]: "CUSTOM_EVENT",
   },
 ];
 
