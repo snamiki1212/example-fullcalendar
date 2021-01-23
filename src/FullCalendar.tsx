@@ -7,7 +7,7 @@ import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import { uuid } from "./lib/uuid";
-import { useAgeEvents } from "./lib/useAgeEvents";
+import { useAgeEvents } from "./hooks/useAgeEvents";
 import {
   resourceAreaColumns,
   views,

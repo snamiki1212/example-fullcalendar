@@ -1,6 +1,6 @@
 import React from "react";
-import { getRangeNumbers, getPrevMonth } from "./age";
-import { uuid } from "./uuid";
+import { getRangeNumbers, getPrevMonth } from "../lib/age";
+import { uuid } from "../lib/uuid";
 import { EventInput } from "@fullcalendar/react";
 import { RESOURCE_ID__SHARED__AGE } from "../constants/resourceIds";
 
