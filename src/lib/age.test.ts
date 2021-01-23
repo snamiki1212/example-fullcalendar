@@ -1,4 +1,4 @@
-import { getRangeNumbers, getYesterday, getPrevMonth } from "./age";
+import { getRangeNumbers } from "./age";
 
 describe("func: getRangeNumbers", () => {
   it("common", () => {

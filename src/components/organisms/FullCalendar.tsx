@@ -22,7 +22,7 @@ import {
 export const FullCalendar = () => {
   const [_events, setEvents] = React.useState(events);
 
-  const {birth} = useAgeContext()
+  const { birth } = useAgeContext();
   const [ageEvents, calcAgeEvents] = useAgeEvents();
 
   React.useEffect(() => {
@@ -30,10 +30,10 @@ export const FullCalendar = () => {
   }, [birth, calcAgeEvents]);
 
   React.useEffect(() => {
-    console.log('ageEvents', ageEvents)
+    console.log("ageEvents", ageEvents);
     const result = [...ageEvents, ...events];
     setEvents(result);
-  }, [ageEvents, events]);
+  }, [ageEvents]);
 
   console.log("ageEvents", ageEvents);
 
