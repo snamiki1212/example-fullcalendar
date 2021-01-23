@@ -139,13 +139,10 @@ const events: EventInput[] = [
 
 const slotLabelFormat = [{ year: "numeric" }, { month: "numeric" }];
 
-export const FullCalendar = () => {
-  const [_events, setEvents] = React.useState(events);
-
-  const birthday = "1990-12-12";
+const useAgeEvents = () => {
   const [ageEvents, setAgeEvents] = React.useState<EventInput[]>([]);
 
-  React.useEffect(() => {
+  const calc = React.useCallback((birthday: string | Date) => {
     const endDate = (() => {
       let d = new Date();
       const BUFFER_YEAR = 10;
@@ -168,9 +165,9 @@ export const FullCalendar = () => {
         birthDate.setFullYear(year);
         return birthDate.toISOString();
       })();
-      
+
       const end = (() => {
-        const yesterday = getYesterday(birthDate)
+        const yesterday = getYesterday(birthDate);
         yesterday.setFullYear(year + 1);
         return yesterday.toISOString();
       })();
@@ -184,13 +181,26 @@ export const FullCalendar = () => {
     });
 
     setAgeEvents(ageEventList);
-  }, [birthday]);
+  }, []);
+
+  return [ageEvents, calc] as const;
+};
+
+export const FullCalendar = () => {
+  const [_events, setEvents] = React.useState(events);
+
+  const birthday = "1990-12-12";
+  const [ageEvents, calcAgeEvents] = useAgeEvents();
 
   React.useEffect(() => {
-    setEvents(prev => [...ageEvents, ...prev])
-  }, [ageEvents])
+    calcAgeEvents(birthday);
+  }, [birthday, calcAgeEvents]);
 
-  console.log('ageEvents', ageEvents);
+  React.useEffect(() => {
+    setEvents((prev) => [...ageEvents, ...prev]);
+  }, [ageEvents]);
+
+  console.log("ageEvents", ageEvents);
 
   const select = (info: DateSelectArg) => {
     setEvents((prev) => {
